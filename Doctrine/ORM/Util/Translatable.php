@@ -39,7 +39,12 @@ trait Translatable
 
     public function getCurrentTranslation()
     {
-        return $this->getTranslations()->first();
+        $locale = $GLOBALS['request']->getLocale();
+        foreach ($this->getTranslations() as $translation) {
+            if ($translation->getLocale() === $locale) {
+                return $translation;
+            }
+        }
     }
 
     public function __call($method, $args)
